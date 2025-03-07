@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link href="{{ url_for('static', filename='css/home_background.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+<script src="{{ url_for('static', filename='js/yourScript.js') }}"></script>
+
+{% block content %}
+<div class="background-container">
+    <!-- Layer 1 with 7 images -->
+    <div class="layer1">
+        <img src="{{ url_for('static', filename='images/image1.jpg') }}" class="floating-image" alt="Image 1">
+        <img src="{{ url_for('static', filename='images/image2.jpg') }}" class="floating-image" alt="Image 2">
+        <img src="{{ url_for('static', filename='images/image3.jpg') }}" class="floating-image" alt="Image 3">
+        <img src="{{ url_for('static', filename='images/image4.jpg') }}" class="floating-image" alt="Image 4">
+        <img src="{{ url_for('static', filename='images/image5.jpg') }}" class="floating-image" alt="Image 5">
+        <img src="{{ url_for('static', filename='images/image6.jpg') }}" class="floating-image" alt="Image 6">
+        <img src="{{ url_for('static', filename='images/image7.jpg') }}" class="floating-image" alt="Image 7">
+    </div>
+    
+    <!-- Layer 2 with 8 images -->
+    <div class="layer2">
+        <img src="{{ url_for('static', filename='images/image8.jpg') }}" class="floating-image" alt="Image 8">
+        <img src="{{ url_for('static', filename='images/image9.jpg') }}" class="floating-image" alt="Image 9">
+        <img src="{{ url_for('static', filename='images/image10.jpg') }}" class="floating-image" alt="Image 10">
+    </div>
+    
+    <!-- Layer 3 with 5 images -->
+    <div class="layer3">
+        <img src="{{ url_for('static', filename='images/image11.jpg') }}" class="floating-image" alt="Image 11">
+        <img src="{{ url_for('static', filename='images/image12.jpg') }}" class="floating-image" alt="Image 12">
+        <img src="{{ url_for('static', filename='images/image13.jpg') }}" class="floating-image" alt="Image 13">
+        <img src="{{ url_for('static', filename='images/image14.jpg') }}" class="floating-image" alt="Image 14">
+        <img src="{{ url_for('static', filename='images/image15.jpg') }}" class="floating-image" alt="Image 15">
+    </div>
+</div>
+
+<!-- Single container for the text -->
+<div class="container">
+    <h1>Welcome to the Spotify Playlist Manager!</h1>
+    <p>Login to manage your Spotify playlists with ease and enjoy a personalized music experience.</p>
+    <a href="{{ url_for('login') }}" class="btn-animate-container">Login with Spotify</a>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Randomize positions of the floating images on page load
+    window.onload = function() {
+        const images = document.querySelectorAll('.floating-image');
+        const containerWidth = window.innerWidth; // Get the window width
+        const containerHeight = window.innerHeight; // Get the window height
+
+        // Randomize the position of each image
+        images.forEach((img) => {
+            const randomX = Math.floor(Math.random() * (containerWidth - 150)); // Random X position within the width
+            const randomY = Math.floor(Math.random() * (containerHeight - 150)); // Random Y position within the height
+
+            img.style.top = randomY + 'px';
+            img.style.left = randomX + 'px';
+        });
+    }
+
+    document.querySelector('.btn-animate-container').addEventListener('click', function(e) {
+        var button = e.target;
+        
+        // Add bubble effect
+        var bubble = document.createElement('span');
+        bubble.classList.add('bubble');
+        button.appendChild(bubble);
+        
+        // Disable button during animation
+        button.classList.add('disabled');
+        
+        // Wait for the animation to finish before allowing a click again
+        setTimeout(function() {
+            window.location.href = button.getAttribute('href');  // Redirect after animation
+        }, 1000); // 1000ms is the duration of the bubble animation
+    });
+</script>
+{% endblock %}

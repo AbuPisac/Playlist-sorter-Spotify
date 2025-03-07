@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Playlists</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Stacks content vertically */
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #playlists {
+            margin-top: 20px; /* Space between sections */
+            display: flex;
+            flex-direction: column; /* Stack playlists vertically */
+        }
+
+        #instructions {
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px; /* Space below instructions */
+        }
+
+        .playlist {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .playlist img {
+            width: 80px;
+            height: 80px;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .playlist a {
+            color: #1db954; 
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            flex-grow: 1;  /* Make link take available space */
+        }
+
+        .playlist a:hover {
+            text-decoration: underline;
+        }
+
+        .playlist div {
+            display: flex;
+            align-items: center;
+        }
+        
+        input[type="number"] {
+            width: 80px;
+            margin-left: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #1db954;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1aa34a;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #333;
+        }
+
+        a#logout {
+            display: inline-block;
+            margin-top: 20px;
+            color: #1db954;
+            text-decoration: none;
+        }
+
+        a#logout:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Playlists</h1>
+
+    <!-- Instructions Box -->
+    <div id="instructions">
+        <h3>Instructions</h3>
+        <p>You can only move 100 songs at a time.</p>
+        <p>For example, move:</p>
+        <ul>
+            <li>Move <strong>1-100</strong> to one playlist</li>
+            <li>Then move <strong>101-200</strong> to another playlist</li>
+        </ul>
+        <p>To merge them, use <strong>Ctrl + A</strong> to select all.</p>
+    </div>
+
+    <div id="playlists">
+        {% for playlist in playlists %}
+            <div class="playlist">
+                {% if playlist.images and playlist.images|length > 0 %}
+                    <img src="{{ playlist.images[0].url }}" alt="{{ playlist.name }} cover">
+                {% else %}
+                    <img src="https://i.postimg.cc/WzvJbqNF/Screenshot-2025-02-05-at-08-43-52-Instagram.png" alt="Default cover" style="width:80px; height:80px;">
+                {% endif %}
+                <a href="{{ playlist.external_urls.spotify }}" target="_blank">{{ playlist.name }}</a>
+    
+                <div>
+                    <input type="number" min="0" placeholder="Start Index" id="startIndex-{{ playlist.id }}">
+                    <input type="number" min="0" placeholder="End Index" id="endIndex-{{ playlist.id }}">
+                    <button onclick="createPlaylist('{{ playlist.id }}')">Create Playlist</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <script>
+        function createPlaylist(playlistId) {
+            const startIndex = document.getElementById('startIndex-' + playlistId).value;
+            const endIndex = document.getElementById('endIndex-' + playlistId).value;
+    
+            // Validate input
+            if (!startIndex || !endIndex) {
+                alert('Please enter both start and end indices.');
+                return;
+            }
+    
+            fetch(`/modify-playlist/${playlistId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ startIndex: startIndex, endIndex: endIndex }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Playlist created successfully!');
+                    window.location.reload();
+                } else {
+                    throw new Error('Error creating playlist');
+                }
+            })
+            .catch(error => alert(error.message));
+        }
+    </script>
+</body>
+</html>

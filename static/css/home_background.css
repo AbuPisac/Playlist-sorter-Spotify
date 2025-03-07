@@ -1,0 +1,189 @@
+/* Dark Blue Almost Black Background */
+body {
+    background-color: #02030a;
+    overflow: hidden;
+}
+
+/* Background Image Animation */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+}
+
+/* Floating Images */
+.floating-image {
+    position: absolute;
+    opacity: 0.95; /* 95% opacity */
+    filter: brightness(0.5); /* Darken the images */
+    animation: flyAround 20s linear infinite alternate;
+    width: 150px; /* Set width for the images */
+    height: auto; /* Maintain aspect ratio */
+}
+
+@keyframes flyAround {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(100px, -50px) rotate(15deg);
+    }
+    50% {
+        transform: translate(-100px, 100px) rotate(-15deg);
+    }
+    75% {
+        transform: translate(50px, -100px) rotate(10deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+/* Layer 1 with 7 images */
+.layer1 .floating-image:nth-child(1) {
+    top: 10%;
+    left: 5%;
+    animation-duration: 20s;
+}
+
+.layer1 .floating-image:nth-child(2) {
+    top: 20%;
+    left: 15%;
+    animation-duration: 18s;
+}
+
+.layer1 .floating-image:nth-child(3) {
+    top: 30%;
+    left: 25%;
+    animation-duration: 22s;
+}
+
+.layer1 .floating-image:nth-child(4) {
+    top: 40%;
+    left: 35%;
+    animation-duration: 17s;
+}
+
+.layer1 .floating-image:nth-child(5) {
+    top: 50%;
+    left: 45%;
+    animation-duration: 19s;
+}
+
+.layer1 .floating-image:nth-child(6) {
+    top: 60%;
+    left: 55%;
+    animation-duration: 21s;
+}
+
+.layer1 .floating-image:nth-child(7) {
+    top: 70%;
+    left: 65%;
+    animation-duration: 20s;
+}
+
+/* Layer 2 with 8 images */
+.layer2 .floating-image {
+    animation-duration: 22s;
+}
+
+.layer3 .floating-image {
+    animation-duration: 24s;
+}
+
+/* Login Container Styling */
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 3rem;
+    text-align: center;
+    background: rgba(50, 50, 50, 0.85);
+    backdrop-filter: blur(20px); /* Stronger blur effect */
+    border-radius: 1rem;
+    transition: opacity 0.5s ease-out;
+    color: white;
+    position: absolute;
+    top: 10%; /* Move the box higher */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 80%; /* Set the width to 80% of the screen */
+}
+
+/* Button Styling */
+.btn-animate-container {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background-color: #1DB954; /* Spotify green */
+    border-radius: 50px; /* Round button */
+    color: white;
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Apply Shake Effect on Hover */
+.btn-animate-container:hover {
+    background-color: #1ed760; /* Lighter green on hover */
+    animation: shake 0.5s ease-out; /* Shake animation on hover */
+}
+
+.btn-animate-container:focus {
+    outline: none;
+    border: 2px solid #1ed760;
+}
+
+/* Bubble Animation */
+.bubble {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: bubbleEffect 1s ease-in-out;
+}
+
+@keyframes bubbleEffect {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* Disabled Button with Shake */
+.btn-animate-container.shaking {
+    animation: shake 0.5s ease-out;
+}
+
+/* Disable Button State */
+.btn-animate-container.disabled {
+    pointer-events: none; /* Prevent clicking */
+}
+
+/* Button Disabled State After Bubble Animation */
+.btn-animate-container.disabled .bubble {
+    animation: none; /* No bubble animation when the button is disabled */
+}

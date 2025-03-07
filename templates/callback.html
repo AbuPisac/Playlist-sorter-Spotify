@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Callback</title>
+</head>
+<body>
+    <h1>Success! Logging you in...</h1>
+    
+    <script>
+        // Extract token from URL fragment
+        const params = new URLSearchParams(window.location.hash.substring(1));
+        const accessToken = params.get('access_token');  // Get the access token dynamically
+
+        // Dynamically get userId and sessionId (update this logic according to your app context)
+        const userId = "dynamicUserID"; // This should be retrieved from your app logic
+        const sessionId = "dynamicSessionID"; // This should be retrieved from your app logic
+        
+        // Send data to the server
+        fetch('/save-token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                access_token: accessToken,
+                userId: userId,
+                sessionId: sessionId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = '/playlists'; // redirect to playlists page
+            } else {
+                alert('Failed to log in: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>
