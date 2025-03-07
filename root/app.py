@@ -9,16 +9,13 @@ app.secret_key = 'your_secret_key'  # Change this to a secure random key
 # Your Spotify application credentials
 CLIENT_ID = 'a61630d5ce474d0cb89504a3b9db1b4b'
 CLIENT_SECRET = '2719c0085bca43e9b64a98cccf19c094'
-REDIRECT_URI = 'http://localhost:5000/callback'
+REDIRECT_URI = 'http://localhost:5000/callback'  # Change this for deployment
 SCOPE = 'playlist-read-private user-read-email user-follow-modify user-follow-read playlist-modify-public playlist-read-collaborative playlist-modify-private user-read-private'
-
-# Your Spotify user ID that you want users to follow
 MY_SPOTIFY_USER_ID = 'q5hv21z6c8gmz5jgnnyzmb9xw'
 
 @app.route('/')
 def home():
     return render_template('home.html')
-    return '<a href="/login">Login with Spotify</a>'
 
 @app.route('/login')
 def login():
